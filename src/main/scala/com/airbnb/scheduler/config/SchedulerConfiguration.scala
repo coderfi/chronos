@@ -67,7 +67,7 @@ trait SchedulerConfiguration extends ScallopConf {
 
   lazy val zooKeeperPath = opt[String]("zk_path",
     descr = "Path in ZooKeeper for storing state",
-    default = Some("/chronos/state"))
+    default = Some("/chronos"))
 
   def zooKeeperStatePath = "%s/state".format(zooKeeperPath())
 

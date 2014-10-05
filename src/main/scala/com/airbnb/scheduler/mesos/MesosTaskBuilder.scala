@@ -108,12 +108,13 @@ class MesosTaskBuilder @Inject()(val conf: SchedulerConfiguration) {
           .addAllUris(uriProtos.asJava)
       }
       if (job.runAsUser.nonEmpty) {
-        command.setUser(job.runAsUser)
+        // HACK not supported in Mesos <= 0.18.2
+        // command.setUser(job.runAsUser)
       }
       taskInfo.setCommand(command.build())
       if (job.container != null) {
         // HACK ignore Docker Container since Mesos <= 0.18.2 does not support it
-      //   taskInfo.setContainer(createContainerInfo(job))
+        // taskInfo.setContainer(createContainerInfo(job))
       }
     }
 

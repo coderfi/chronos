@@ -159,7 +159,8 @@ class MesosTaskBuilder @Inject()(val conf: SchedulerConfiguration) {
     val command = CommandInfo.newBuilder()
       .setValue(job.executor)
     if (job.runAsUser.nonEmpty) {
-      command.setUser(job.runAsUser)
+      // // HACK not supported in Mesos <= 0.18.2
+      // command.setUser(job.runAsUser)
     }
     val executor = ExecutorInfo.newBuilder()
       .setExecutorId(ExecutorID.newBuilder().setValue("shell-wrapper-executor"))

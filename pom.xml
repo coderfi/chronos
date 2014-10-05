@@ -4,7 +4,7 @@
 
   <groupId>com.airbnb</groupId>
   <artifactId>chronos</artifactId>
-  <version>2.2.0_mesos-0.20.0-SNAPSHOT</version>
+  <version>2.2.0_mesos-0.18.2-branch-0.1-SNAPSHOT</version>
   <inceptionYear>2012</inceptionYear>
 
   <prerequisites>
@@ -32,8 +32,8 @@
     <joda-convert.version>1.7</joda-convert.version>
     <joda-time.version>2.3</joda-time.version>
     <lz4.version>1.2.0</lz4.version>
-    <mesos.version>0.20.0</mesos.version>
-    <mesos-utils.version>${mesos.version}-1</mesos-utils.version>
+    <mesos.version>0.18.2</mesos.version>
+    <mesos-utils.version>${mesos.version}-2</mesos-utils.version>
     <metrics.version>3.1.0</metrics.version>
     <raven.version>4.1.2</raven.version>
 

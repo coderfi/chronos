@@ -11,7 +11,7 @@ import scala.collection.Map
 import javax.inject.Inject
 import com.airbnb.scheduler.config.SchedulerConfiguration
 import scala.collection.JavaConverters._
-import org.apache.mesos.Protos.ContainerInfo.DockerInfo
+// import org.apache.mesos.Protos.ContainerInfo.DockerInfo
 
 /**
  * Helpers for dealing dealing with tasks such as generating taskIds based on jobs, parsing them and ensuring that their
@@ -112,7 +112,8 @@ class MesosTaskBuilder @Inject()(val conf: SchedulerConfiguration) {
       }
       taskInfo.setCommand(command.build())
       if (job.container != null) {
-        taskInfo.setContainer(createContainerInfo(job))
+        // HACK ignore Docker Container since Mesos <= 0.18.2 does not support it
+      //   taskInfo.setContainer(createContainerInfo(job))
       }
     }
 
@@ -127,23 +128,23 @@ class MesosTaskBuilder @Inject()(val conf: SchedulerConfiguration) {
     return taskInfo
   }
 
-  def createContainerInfo(job: BaseJob): ContainerInfo = {
-    val builder = ContainerInfo.newBuilder()
-    job.container.volumes.map { v =>
-      val volumeBuilder = Volume.newBuilder().setContainerPath(v.containerPath)
-      v.hostPath.map { h =>
-        volumeBuilder.setHostPath(h)
-      }
+  // def createContainerInfo(job: BaseJob): ContainerInfo = {
+  //   val builder = ContainerInfo.newBuilder()
+  //   job.container.volumes.map { v =>
+  //     val volumeBuilder = Volume.newBuilder().setContainerPath(v.containerPath)
+  //     v.hostPath.map { h =>
+  //       volumeBuilder.setHostPath(h)
+  //     }
 
-      v.mode.map { m =>
-        volumeBuilder.setMode(Volume.Mode.valueOf(m.toString.toUpperCase))
-      }
+  //     v.mode.map { m =>
+  //       volumeBuilder.setMode(Volume.Mode.valueOf(m.toString.toUpperCase))
+  //     }
 
-      volumeBuilder.build()
-    }.foreach(builder.addVolumes)
-    builder.setType(ContainerInfo.Type.DOCKER)
-    builder.setDocker(DockerInfo.newBuilder().setImage(job.container.image).build()).build
-  }
+  //     volumeBuilder.build()
+  //   }.foreach(builder.addVolumes)
+  //   builder.setType(ContainerInfo.Type.DOCKER)
+  //   builder.setDocker(DockerInfo.newBuilder().setImage(job.container.image).build()).build
+  // }
 
   def getExecutorName(x: String) = "%s".format(x)
 
@@ -162,9 +163,9 @@ class MesosTaskBuilder @Inject()(val conf: SchedulerConfiguration) {
     val executor = ExecutorInfo.newBuilder()
       .setExecutorId(ExecutorID.newBuilder().setValue("shell-wrapper-executor"))
       .setCommand(command.build())
-    if (job.container != null) {
-      executor.setContainer(createContainerInfo(job))
-    }
+    // if (job.container != null) {
+    //   executor.setContainer(createContainerInfo(job))
+    // }
     taskInfo.setExecutor(executor)
       .setData(getDataBytes(job.executorFlags, job.command))
   }

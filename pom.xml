@@ -111,7 +111,7 @@
 
     <dependency>
       <groupId>mesosphere</groupId>
-      <artifactId>mesos-utils_2.10</artifactId>
+      <artifactId>mesos-utils</artifactId>
       <version>${mesos-utils.version}</version>
     </dependency>
 
